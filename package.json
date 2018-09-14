@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kamg300/K1-B0t.git"
+    "url": "git+https://github.com/Kamg300/K1-B0.git"
   },
   "author": "KirigamaM",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Kamg300/K1-B0t/issues"
+    "url": "https://github.com/Kamg300/K1-B0/issues"
   },
-  "homepage": "https://github.com/Kamg300/K1-B0t#readme",
+  "homepage": "https://github.com/Kamg300/K1-B0#readme",
   "dependencies": {
     "discord.js": "^11.4.2",
     "google-translate-api": "^2.3.0",
