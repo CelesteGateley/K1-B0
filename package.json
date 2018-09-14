@@ -1,0 +1,25 @@
+{
+  "name": "k1-b0",
+  "version": "1.0.0",
+  "description": "A small discord bot to do various functions",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kamg300/K1-B0t.git"
+  },
+  "author": "KirigamaM",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kamg300/K1-B0t/issues"
+  },
+  "homepage": "https://github.com/Kamg300/K1-B0t#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "google-translate-api": "^2.3.0",
+    "node-sentiment": "0.0.7",
+    "wanakana": "^4.0.2"
+  }
+}

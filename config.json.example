@@ -1,0 +1,9 @@
+{
+  "prefix": "=",
+  "token": "{ENTER TOKEN HERE}",
+  "enableChatResponseFeatures": false,
+  "robophobicTimeout": 90,
+  "enableVoiceTextChannel": false,
+  "voiceChannel": "",
+  "textChannelRole": ""
+}
