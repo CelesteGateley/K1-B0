@@ -48,9 +48,12 @@ client.on('message', message => {
         }
     }
 
-    if (!message.content.startsWith(config.prefix) || !client.commands.has(commandName)) return;
+    if (!message.content.startsWith(config.prefix)) return;
 
-    const command = client.commands.get(commandName);
+    const command = client.commands.get(commandName)
+                || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+    if (!command) return;
 
     if (command.args && !args.length) {
         return message.channel.send(`You didn't provide any arguments, ${message.author}`);
