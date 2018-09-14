@@ -1,4 +1,4 @@
-const { prefix } = require('../config.json');
+const { prefix, debug } = require('../config.json');
 
 module.exports = {
     name: "help",
@@ -11,8 +11,8 @@ module.exports = {
         const { commands } = message.client;
 
         if (!args.length) {
-            data.push(`Here\'s a list of all my commands:\n${prefix}`);
-            data.push(commands.map(command => command.name).join(`\n${prefix}`));
+            data.push(`Here\'s a list of all my commands:\n `);
+            data.push(commands.map(command => command.name).join(`\n `));
             data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
 
             return message.author.send(data, { split: true })
@@ -21,7 +21,11 @@ module.exports = {
                     message.reply('I\'ve sent you a DM with all my commands!');
                 })
                 .catch(error => {
-                    console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    if (debug) {
+                        console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+                    } else {
+                        console.error(`Could not send help DM to ${message.author.tag}.\n`);
+                    }
                     message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
                 });
         }

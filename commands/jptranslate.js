@@ -1,5 +1,6 @@
 const translate = require("google-translate-api");
 const wanakana = require("wanakana");
+const { debug } = require("../config.json");
 
 module.exports = {
     name: "jptranslate",
@@ -15,7 +16,11 @@ module.exports = {
                 + "\nRomanji: " + wanakana.toRomaji(res.text)
                 + "```");
         }).catch(err => {
-            console.error(err);
+            if (debug) {
+                console.error(`Google Translate API refused to translate: \"${args.join(" ")}\"\n`, err);
+            } else {
+                console.error(`Google Translate API refused to translate: \"${args.join(" ")}\"`)
+            }
             return message.reply("An error occurred whilst processing your request. Try again later!");
         });
     },

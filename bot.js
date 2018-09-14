@@ -63,9 +63,25 @@ client.on('voiceStateUpdate', (before, after) => {
         let newChannel = after.voiceChannelID;
 
         if (newChannel === config.voiceChannel) {
-            after.addRole(config.textChannelRole).catch(console.error);
+            try {
+                after.addRole(config.textChannelRole);
+            } catch (error) {
+                if (config.debug) {
+                    console.error(`An error occurred when adding the Text Channel Role to ${after.user.tag}`, error);
+                } else {
+                    console.error(`An error occurred when adding the Text Channel Role to ${after.user.tag}`);
+                }
+            }
         } else if (oldChannel === config.voiceChannel && newChannel !== config.voiceChannel) {
-            after.removeRole(config.textChannelRole).catch(console.error);
+            try {
+                after.removeRole(config.textChannelRole);
+            } catch (error) {
+                if (config.debug) {
+                    console.error(`An error occurred when removing the Text Channel Role from ${after.user.tag}`, error);
+                } else {
+                    console.error(`An error occurred when adding the Text Channel Role from ${after.user.tag}`);
+                }
+            }
         }
     }
 });
