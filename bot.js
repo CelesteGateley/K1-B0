@@ -3,6 +3,8 @@ const fs = require("fs");
 const sentiment = require("node-sentiment");
 const config = require("./config.json");
 
+const currentConfigVersion = 1;
+
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
@@ -14,6 +16,11 @@ for (const file of commandFiles) {
 }
 
 let roboTimeout = new Date() / 1000;
+
+if (config.configVersion !== currentConfigVersion) {
+    console.error("Config out of date! Please update and try again!");
+    process.exit(1);
+}
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
