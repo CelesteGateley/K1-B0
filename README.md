@@ -6,7 +6,7 @@ give a user a role on joining a voice channel
 ### Installation
 
 Start by cloning the repo using:\
-`git clone https://github.com/Kamg300/K1-B0t`
+`git clone https://github.com/Kamg300/K1-B0`
 
 Next, you need to copy config.json.example to config.json, and then configure that file. Be warned, if `enableVoiceTextChannel`
 is enabled, but the channel and role are undefined/incorrect, then it will throw errors to console every time someone 
