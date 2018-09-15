@@ -7,6 +7,7 @@ module.exports = {
     usage: '[hours] [minutes] [seconds] or time [en/on/sa] [24hr Time]',
     args: false,
     execute(message, args) {
+        let format = 'YYYY-MMMM-DD hh:mm:ss A';
         let uk_raw = moment().tz("Europe/London");
         let ontario_raw = moment().tz("America/Toronto");
         let south_africa_raw = moment().tz("Africa/Johannesburg");
@@ -17,34 +18,40 @@ module.exports = {
         }
 
         if (args.length > 1 && parse) {
-            let time = moment(args[1], 'HH:mm');
+            let time;
+            let date_en = uk_raw.format('YYYY-MM-DD') + ' ';
+            let date_on = ontario_raw.format('YYYY-MM-DD') + ' ';
+            let date_sa = south_africa_raw.format('YYYY-MM-DD') + ' ';
             let eng = "";
             let ont = "";
             let saf = "";
             switch (args[0].toLowerCase()) {
                 case 'en':
-                    eng = time.format("lll");
-                    ont = time.tz("America/Toronto").format("lll");
-                    saf = time.tz("Africa/Johannesburg").format("lll");
+                    time = moment.tz(date_en + args[1], "Europe/London");
+                    eng = time.tz("Europe/London").format(format);
+                    ont = time.tz("America/Toronto").format(format);
+                    saf = time.tz("Africa/Johannesburg").format(format);
                     break;
                 case 'on':
-                    eng = time.tz("Europe/London").format("lll");
-                    ont = time.format("lll");
-                    saf = time.tz("Africa/Johannesburg").format("lll");
+                    time = moment.tz(date_on + args[1], "America/Toronto");
+                    eng = time.tz("Europe/London").format(format);
+                    ont = time.tz("America/Toronto").format(format);
+                    saf = time.tz("Africa/Johannesburg").format(format);
                     break;
                 case 'sa':
-                    eng = time.tz("Europe/London").format("lll");
-                    ont = time.tz("America/Toronto").format("lll");
-                    saf = time.format("lll");
+                    time = moment.tz(date_sa + args[1], "Africa/Johannesburg");
+                    eng = time.tz("Europe/London").format(format);
+                    ont = time.tz("America/Toronto").format(format);
+                    saf = time.tz("Africa/Johannesburg").format(format);
                     break;
                 default:
                     return message.channel.send("Invalid TZ Code. Valid Codes: en, on, sa")
             }
             return message.channel.send("```YAML" +
-                `\nTime at ${args[1]}`
-                + `\nEngland: ${eng}\n`
-                + `\nOntario: ${ont}\n`
-                + `\nAfrica: ${saf}\n`
+                `\nTime at ${args[1]}\n`
+                + `\nEngland: ${eng}`
+                + `\nOntario: ${ont}`
+                + `\nAfrica: ${saf}`
                 + "```");
         }
 
@@ -62,9 +69,9 @@ module.exports = {
             south_africa_raw.add(parseInt(args[2]), 'second');
         }
 
-        let uk = uk_raw.format("lll");
-        let ontario = ontario_raw.format("lll");
-        let south_africa = south_africa_raw.format("lll");
+        let uk = uk_raw.format(format);
+        let ontario = ontario_raw.format(format);
+        let south_africa = south_africa_raw.format(format);
 
         let msg = "```YAML\n"
             + `England: ${uk}\n`
