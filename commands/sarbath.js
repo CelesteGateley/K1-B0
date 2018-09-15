@@ -2,7 +2,7 @@ module.exports = {
     name: 'sarbath',
     description: 'Let\'s people know you need to do your business',
     aliases: ['bathroom', 'tetgone'],
-    usage: 'sarbath',
+    usage: '',
     args: false,
     execute(message, args) {
         return message.reply('', {

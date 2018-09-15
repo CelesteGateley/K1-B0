@@ -6,7 +6,7 @@ module.exports = {
     name: "jptranslate",
     description: "Translate given text into japanese",
     aliases: ["jpt", "jptrans"],
-    usage: 'jptranslate (String)',
+    usage: '(String)',
     args: true,
     execute(message, args) {
         translate(args.join(" "), {to: 'ja'}).then(res => {

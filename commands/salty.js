@@ -2,7 +2,7 @@ module.exports = {
     name: "salty",
     description: "Tell someone they're being salty",
     aliases: [],
-    usage: 'salty',
+    usage: '',
     args: false,
     execute(message, args) {
         return message.channel.send('', {

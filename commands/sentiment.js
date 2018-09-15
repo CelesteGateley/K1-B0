@@ -4,7 +4,7 @@ module.exports = {
     name: "sentiment",
     description: "Uses node-sentiment to see if a statement is positive or negative",
     aliases: [],
-    usage: 'sentiment (statement)',
+    usage: '(statement)',
     args: true,
     execute(message, args) {
         let results = sentiment(args.join(" "));
