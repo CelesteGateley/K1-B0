@@ -3,7 +3,7 @@ const fs = require("fs");
 const sentiment = require("node-sentiment");
 const config = require("./config.json");
 
-const currentConfigVersion = 1;
+const currentConfigVersion = 2;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -61,6 +61,7 @@ client.on('message', message => {
 
     try {
         command.execute(message, args);
+        message.delete()
     } catch (error) {
         console.error(error);
         message.reply('there was an error trying to execute that command!');

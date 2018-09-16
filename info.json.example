@@ -1,0 +1,6 @@
+{
+    "title": "This first line will always be read as title and description",
+    "field1": "You can put anything in these boxes",
+    "field2": "You can also put anything in the fields",
+    "field3": "You will need to change the names of the fields, as they will be headers"
+}

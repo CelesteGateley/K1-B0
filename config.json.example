@@ -1,5 +1,5 @@
 {
-  "config-version": 1,
+  "configVersion": 2,
   "prefix": "=",
   "token": "{ENTER TOKEN HERE}",
   "enableChatResponseFeatures": false,
@@ -7,5 +7,6 @@
   "enableVoiceTextChannel": false,
   "voiceChannel": "",
   "textChannelRole": "",
-  "debug": false
+  "debug": false,
+  "deleteMessages": false
 }
