@@ -1,21 +1,36 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const sentiment = require("node-sentiment");
 const config = require("./config.json");
 
 const currentConfigVersion = 2;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.responses = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const responseFiles = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
 }
 
-let roboTimeout = new Date() / 1000;
+for (const file of responseFiles) {
+    const response = require(`./responses/${file}`);
+    for (const trigger of response.triggers) {
+        client.responses.set(trigger, response);
+    }
+    client.responses.sort(function(a, b) {
+        if (a.priority < b.priority) {
+            return 1;
+        } else if (a.priority === b.priority) {
+            return 0;
+        } else {
+            return -1;
+        }
+    });
+}
 
 if (config.configVersion !== currentConfigVersion) {
     console.error("Config out of date! Please update and try again!");
@@ -33,20 +48,16 @@ client.on('message', message => {
     const args = message.content.slice(config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    if (config.enableChatResponseFeatures) {
-        if (message.content.toUpperCase().includes("DO ROBOTS HAVE DICKS")) {
-            message.channel.send('', {
-                file: 'https://cdn.discordapp.com/attachments/263015254064103424/488406716220964878/310.png'
-            });
-        } else if (message.content.toUpperCase().includes("ROBOT") || message.content.toUpperCase().includes("BOT")
-            || message.content.toUpperCase().includes("K1-B0") || message.content.toUpperCase().includes("KII-BO")) {
-            if ((sentiment(message.content)['score'] < 0)
-                && (new Date() / 1000) - roboTimeout >= parseInt(config.robophobicTimeout)) {
-                message.reply('THAT\'S ROBOPHOBIC!');
-                roboTimeout = new Date() / 1000;
+    let responded = false;
+    client.responses.forEach(function(value, key) {
+        if (message.content.toLowerCase().includes(key) && !responded) {
+            if (Math.random() <= value.chance / 100) {
+                value.execute(message);
+                responded = true;
             }
         }
-    }
+    });
+
 
     if (!message.content.startsWith(config.prefix)) return;
 
@@ -61,7 +72,9 @@ client.on('message', message => {
 
     try {
         command.execute(message, args);
-        message.delete()
+        if (message.guild !== null) {
+            message.delete()
+        }
     } catch (error) {
         console.error(error);
         message.reply('there was an error trying to execute that command!');
