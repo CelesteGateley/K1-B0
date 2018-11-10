@@ -1,4 +1,4 @@
-const discord = require("discord.js")
+const discord = require("discord.js");
 
 module.exports = {
     name: "info",
@@ -9,7 +9,7 @@ module.exports = {
     execute(message, args) {
         let info_file;
         try {
-            info_file = require("../info.json");
+            info_file = require("../assets/info.json");
         } catch (error) {
             console.log("Info command attempted but info.json not configured.");
             return message.reply("This command hasn't been configured by the admin yet.");
