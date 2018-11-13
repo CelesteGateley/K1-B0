@@ -11,7 +11,7 @@ module.exports = {
     args: true,
     // Code to be executed when the command is run
     execute(message, args) {
-        let argString = args.join("");
+        let argString = args.join("").replace('-', '+-');
         let values = argString.split("+");
 
         let valLine = "**Result:** ";
@@ -25,13 +25,22 @@ module.exports = {
                 try {
                     let count = values[x].split("d")[0];
                     let sides = values[x].split("d")[1];
+                    let neg = false;
                     if (sides === undefined || count === undefined || isNaN(Number(count)) || isNaN(Number(sides))) { throw "";}
-                    valLine += values[x] + " (";
+                    if (count < 0) {
+                        neg = true;
+                        count = Math.abs(count);
+                    }
+                    valLine += values[x].replace('-', '') + " (";
                     for (let counter = 0; counter < count; counter++) {
                         let roll = Math.floor(Math.random() * sides)+1;
                         valLine += roll;
                         if (counter < count-1) { valLine += ", "; }
-                        total += roll;
+                        if (neg) {
+                            total -= roll;
+                        } else {
+                            total += roll;
+                        }
                     }
                     valLine += ")"
                 } catch (err) {
@@ -40,11 +49,15 @@ module.exports = {
                 }
             } else {
                 total += parsedVal;
-                valLine += parsedVal;
+                valLine += values[x].replace('-', '');
             }
 
             if (x < values.length - 1) {
-                valLine += " + ";
+                if (values[x+1].includes('-')) {
+                    valLine += " - ";
+                } else {
+                    valLine += " + ";
+                }
             }
         }
 
