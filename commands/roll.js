@@ -24,13 +24,15 @@ module.exports = {
             if (isNaN(parsedVal)) {
                 try {
                     let count = values[x].split("d")[0];
+                    if (count === '') { count = 1; }
                     let sides = values[x].split("d")[1];
                     let neg = false;
-                    if (sides === undefined || count === undefined || isNaN(Number(count)) || isNaN(Number(sides))) { throw "";}
+                    if (isNaN(Number(count)) || isNaN(Number(sides))) { throw "";}
                     if (count < 0) {
                         neg = true;
                         count = Math.abs(count);
                     }
+                    if (values[x].split("d")[0] === '') { valLine += '1'; }
                     valLine += values[x].replace('-', '') + " (";
                     for (let counter = 0; counter < count; counter++) {
                         let roll = Math.floor(Math.random() * sides)+1;

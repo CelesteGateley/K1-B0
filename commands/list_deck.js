@@ -1,10 +1,10 @@
 module.exports = {
     // The default name of the command
-    name: "deckofmanythings",
+    name: "listdeck",
     // Description of the command for the help menu
-    description: "Draws a random card from the deck of many things",
+    description: "Lists all cards in the Deck of Many Things",
     // Aliases that the command will also trigger
-    aliases: [ "manythings", "domt", "dotm" ],
+    aliases: [ 'ld', 'listmany'],
     // Additional values that the command would require, to be added to help
     usage: '',
     // If the command REQUIRES arguments, then this should be set to true
@@ -19,17 +19,14 @@ module.exports = {
             return message.reply("This command hasn't been configured by the admin yet.");
         }
         let keys = Object.keys(deck_file);
-        let card;
+        let response = '```YAML\n';
 
-        let found  = false;
-        while (!found) {
-            card = keys[Math.floor(Math.random() * keys.length)];
-            if (!card.startsWith('__')) {
-                found = true;
-            }
+        for (let key in keys) {
+            if (keys[key].startsWith("__")) { continue; }
+            response += keys[key] + ": " + deck_file[keys[key]] + '\n';
         }
-
-        return message.reply("You drew **" + card + "**\n" + deck_file[card]);
+        response += "```"
+        return message.channel.send(response);
 
     },
 };
