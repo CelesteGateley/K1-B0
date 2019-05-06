@@ -1,5 +1,5 @@
 {
-  "configVersion": 2,
+  "configVersion": 3,
   "prefix": "=",
   "token": "{ENTER TOKEN HERE}",
   "enableChatResponseFeatures": false,
@@ -9,4 +9,5 @@
   "textChannelRole": "",
   "debug": false,
   "deleteMessages": false
+  "embedColor": "#864991"
 }

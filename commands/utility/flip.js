@@ -1,6 +1,8 @@
 module.exports = {
     // The default name of the command
     name: "flip",
+    // The Category of the command (Used for help)
+    category: 2,
     // Description of the command for the help menu
     description: "Flip a coin!",
     // Aliases that the command will also trigger

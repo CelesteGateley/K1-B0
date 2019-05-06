@@ -1,10 +1,12 @@
 module.exports = {
     // The default name of the command
-    name: "listdeck",
+    name: "deckofmanythings",
+    // The Category of the command (Used for help)
+    category: 4,
     // Description of the command for the help menu
-    description: "Lists all cards in the Deck of Many Things",
+    description: "Draws a random card from the deck of many things",
     // Aliases that the command will also trigger
-    aliases: [ 'ld', 'listmany'],
+    aliases: [ "manythings", "domt", "dotm" ],
     // Additional values that the command would require, to be added to help
     usage: '',
     // If the command REQUIRES arguments, then this should be set to true
@@ -13,20 +15,23 @@ module.exports = {
     execute(message, args) {
         let deck_file;
         try {
-            deck_file = require("../assets/many_things.json");
+            deck_file = require(appRoot + "/assets/many_things.json");
         } catch (error) {
             console.log("Deck of many things command attempted but many_things.json not configured.");
             return message.reply("This command hasn't been configured by the admin yet.");
         }
         let keys = Object.keys(deck_file);
-        let response = '```YAML\n';
+        let card;
 
-        for (let key in keys) {
-            if (keys[key].startsWith("__")) { continue; }
-            response += keys[key] + ": " + deck_file[keys[key]] + '\n';
+        let found  = false;
+        while (!found) {
+            card = keys[Math.floor(Math.random() * keys.length)];
+            if (!card.startsWith('__')) {
+                found = true;
+            }
         }
-        response += "```"
-        return message.channel.send(response);
+
+        return message.reply("You drew **" + card + "**\n" + deck_file[card]);
 
     },
 };

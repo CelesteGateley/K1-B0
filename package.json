@@ -18,9 +18,11 @@
   "homepage": "https://github.com/Kamg300/K1-B0#readme",
   "dependencies": {
     "discord.js": "^11.4.2",
+    "discord.js-typings": "github:discordjs/discord.js-typings",
     "google-translate-api": "^2.3.0",
     "moment-timezone": "^0.5.21",
     "node-sentiment": "0.0.7",
+    "uws": "^100.0.1",
     "wanakana": "^4.0.2"
   }
 }

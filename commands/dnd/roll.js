@@ -1,6 +1,8 @@
 module.exports = {
     // The default name of the command
     name: "roll",
+    // The Category of the command (Used for help)
+    category: 4,
     // Description of the command for the help menu
     description: "Roll a set number of dice",
     // Aliases that the command will also trigger

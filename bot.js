@@ -1,20 +1,26 @@
 const Discord = require("discord.js");
+const path = require("path");
 const fs = require("fs");
 const config = require("./config.json");
 
-const currentConfigVersion = 2;
+global.appRoot = path.resolve(__dirname);
+const currentConfigVersion = 3;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.responses = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const coreCommandFiles = fs.readdirSync('./commands/core').filter(file => file.endsWith('.js'));
+const utilityCommandFiles = fs.readdirSync('./commands/utility').filter(file => file.endsWith('.js'));
+const funCommandFiles = fs.readdirSync('./commands/fun').filter(file => file.endsWith('.js'));
+const dndCommandFiles = fs.readdirSync('./commands/dnd').filter(file => file.endsWith('.js'));
+
 const responseFiles = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
-}
+for (const file of coreCommandFiles) { const command = require(`./commands/core/${file}`); client.commands.set(command.name, command); }
+for (const file of utilityCommandFiles) { const command = require(`./commands/utility/${file}`); client.commands.set(command.name, command); }
+for (const file of funCommandFiles) { const command = require(`./commands/fun/${file}`); client.commands.set(command.name, command); }
+for (const file of dndCommandFiles) { const command = require(`./commands/dnd/${file}`); client.commands.set(command.name, command); }
 
 for (const file of responseFiles) {
     const response = require(`./responses/${file}`);

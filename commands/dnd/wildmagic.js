@@ -1,6 +1,8 @@
 module.exports = {
     // The default name of the command
     name: "wildmagic",
+    // The Category of the command (Used for help)
+    category: 4,
     // Description of the command for the help menu
     description: "Generates a Wild Magic Effect",
     // Aliases that the command will also trigger
@@ -11,7 +13,7 @@ module.exports = {
     args: false,
     // Code to be executed when the command is run
     execute(message, args) {
-        let wildmagic = require("../assets/wildmagic.json");
+        let wildmagic = require(appRoot + "/assets/wildmagic.json");
         let calc = false;
         if (args.length > 0) {
             calc = true;

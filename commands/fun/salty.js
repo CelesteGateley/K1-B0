@@ -1,5 +1,7 @@
 module.exports = {
     name: "salty",
+    // The Category of the command (Used for help)
+    category: 3,
     description: "Tell someone they're being salty",
     aliases: [],
     usage: '',
