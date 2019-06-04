@@ -47,8 +47,8 @@ module.exports = {
 
         if (!command) { return message.reply('that\'s not a valid command!'); }
 
-        let embed = new discord.RichEmbed().setColor(embedColor);
-
+        //let embed = new discord.RichEmbed().setColor(embedColor);
+        let data = [];
         data.push(`**Name:** ${command.name}`);
 
         if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
