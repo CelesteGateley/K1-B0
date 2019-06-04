@@ -23,7 +23,7 @@ module.exports = {
         if (args.length > 1 && parse) {
             let time;
             let t = args[1];
-            if (parseInt(t)) { t = t.length === 3 ? "0" + t.slice(0,1) + ":" + t.slice(1,4) : t.slice(0,2) + ":" + t.slice(2,4); }
+            if (!isNaN(Number(args[1]))) { t = t.length === 3 ? "0" + t.slice(0,1) + ":" + t.slice(1,4) : t.slice(0,2) + ":" + t.slice(2,4); }
             let date_en = uk_raw.format('YYYY-MM-DD') + ' ';
             let date_on = ontario_raw.format('YYYY-MM-DD') + ' ';
             let date_sa = south_africa_raw.format('YYYY-MM-DD') + ' ';
