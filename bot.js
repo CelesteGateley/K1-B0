@@ -25,7 +25,7 @@ for (const file of dndCommandFiles) { const command = require(`./commands/dnd/${
 for (const file of responseFiles) {
     const response = require(`./responses/${file}`);
     for (const trigger of response.triggers) {
-        client.responses.set(trigger, response);
+        client.responses.set("(^|\\s)" + trigger + "($|\\.|\\?|,)", response);
     }
     client.responses.sort(function(a, b) {
         if (a.priority < b.priority) {
@@ -56,7 +56,7 @@ client.on('message', message => {
 
     let responded = false;
     client.responses.forEach(function(value, key) {
-        if (message.content.toLowerCase().includes(key) && !responded) {
+        if (message.content.toLowerCase().match(key) && !responded) {
             if (Math.random() <= value.chance / 100) {
                 value.execute(message);
                 responded = true;
