@@ -28,14 +28,15 @@ for (const file of responseFiles) {
         client.responses.set("(^|\\s)" + trigger + "($|\\.|\\?|,)", response);
     }
     client.responses.sort(function(a, b) {
-        if (a.priority < b.priority) {
-            return 1;
-        } else if (a.priority === b.priority) {
-            return 0;
-        } else {
-            return -1;
-        }
+        if (a.priority < b.priority) { return 1; }
+        else if (a.priority === b.priority) { return 0; }
+        else { return -1; }
     });
+}
+let useVoice = config.enableVoiceTextChannel;
+if (config.enableVoiceTextChannel && (config.voiceChannel === "" || config.textChannelRole === "")) {
+    console.error("Voice channel has been enabled, but one of the required config values is unset. This function has been disabled.")
+    useVoice = false;
 }
 
 if (config.configVersion !== currentConfigVersion) {
@@ -88,7 +89,7 @@ client.on('message', message => {
 });
 
 client.on('voiceStateUpdate', (before, after) => {
-    if (config.enableChatResponseFeatures) {
+    if (useVoice) {
         let oldChannel = before.voiceChannelID;
         let newChannel = after.voiceChannelID;
 
