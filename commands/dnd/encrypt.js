@@ -5,7 +5,7 @@ module.exports = {
     // The default name of the command
     name: "encrypt",
     // The Category of the command (Used for help)
-    category: 4,
+    category: "dnd",
     // Description of the command for the help menu
     description: "Allows you to encrypt a string",
     // Aliases that the command will also trigger

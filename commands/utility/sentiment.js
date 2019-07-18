@@ -3,7 +3,7 @@ const sentiment = require("node-sentiment");
 module.exports = {
     name: "sentiment",
     // The Category of the command (Used for help)
-    category: 2,
+    category: "utility",
     description: "Uses node-sentiment to see if a statement is positive or negative",
     aliases: [],
     usage: '(statement)',

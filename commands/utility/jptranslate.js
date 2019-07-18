@@ -4,7 +4,7 @@ const { debug } = require("../../config.json");
 
 module.exports = {
     name: "jptranslate",
-    category: 2,
+    category: "utility",
     description: "Translate given text into japanese",
     aliases: ["jpt", "jptrans"],
     usage: '(string)',

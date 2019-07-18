@@ -1,31 +1,32 @@
 const { prefix, debug, embedColor } = require('../../config.json');
 const discord = require("discord.js");
+const modules = require(appRoot + "/modules.json")
 
 module.exports = {
     name: "help",
-    category: 1,
+    category: "core",
     description: "Lists all the commands that I can perform",
     aliases: ['commands'],
     usage: '',
     args: false,
     execute(message, args) {
         const client = message.client;
-        const categories = { 1: 'Core', 2: 'Utility', 3: 'Fun', 4: 'Dungeons and Dragons'};
-        const cmdCatArray = [[],[],[],[]];
+        const cmdCatArray = [];
+        for (let cat in modules) { cmdCatArray[cat] = []; }
 
-        client.commands.forEach((value) => { cmdCatArray[value.category-1].push(value); });
+        client.commands.forEach((value) => { cmdCatArray[value.category].push(value); });
 
         if (!args.length) {
             let embed = new discord.RichEmbed().setColor(embedColor);
             embed.setTitle("K1-B0 Help Command");
             embed.setDescription("Here is the help information for the K1-B0 discord bot!");
-            for (let x = 0; x < 4; x++) {
+            for (let cat in modules) {
                 let fieldText = '';
-                for (let cmd of cmdCatArray[x]) {
+                for (let cmd of cmdCatArray[cat]) {
                     let cmdUsg = '`' + cmd.name + ' ' + cmd.usage;
                     fieldText += cmdUsg + '`\n';
                 }
-                embed.addField('**' + categories[x+1] + '**', fieldText);
+                embed.addField('**' + modules[cat]  + '**', fieldText);
             }
             return message.author.send(embed)
                 .then(() => {

@@ -2,7 +2,7 @@ module.exports = {
     // The default name of the command
     name: "deckofmanythings",
     // The Category of the command (Used for help)
-    category: 4,
+    category: "dnd",
     // Description of the command for the help menu
     description: "Draws a random card from the deck of many things",
     // Aliases that the command will also trigger

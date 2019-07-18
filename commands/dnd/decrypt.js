@@ -5,7 +5,7 @@ module.exports = {
     // The default name of the command
     name: "decrypt",
     // The Category of the command (Used for help)
-    category: 4,
+    category: "dnd",
     // Description of the command for the help menu
     description: "Allows you to decrypt a string",
     // Aliases that the command will also trigger

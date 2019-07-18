@@ -3,7 +3,7 @@ const moment = require('moment-timezone');
 module.exports = {
     name: "time",
     // The Category of the command (Used for help)
-    category: 2,
+    category: "utility",
     description: "Displays the current time in a given timezone",
     aliases: ['current-time', 'ct'],
     usage: '[hours] [minutes] [seconds] or time [en/on/sa/hk] [24hr Time]',

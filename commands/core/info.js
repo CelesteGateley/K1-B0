@@ -3,7 +3,7 @@ const { embedColor } = require('../../config.json');
 
 module.exports = {
     name: "info",
-    category: 1,
+    category: "core",
     description: "Displays information about the server",
     aliases: ['about'],
     usage: '',
