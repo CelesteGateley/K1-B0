@@ -5,7 +5,7 @@
   "enableChatResponseFeatures": false,
   "robophobicTimeout": 90,
   "enableVoiceTextChannel": false,
-  "voiceChannel": "",
+  "voiceChannel": [""],
   "textChannelRole": "",
   "debug": false,
   "deleteMessages": false

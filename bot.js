@@ -90,7 +90,7 @@ client.on('voiceStateUpdate', (before, after) => {
         let oldChannel = before.voiceChannelID;
         let newChannel = after.voiceChannelID;
 
-        if (newChannel === config.voiceChannel) {
+        if (config.voiceChannel.contains(newChannel)) {
             try {
                 after.addRole(config.textChannelRole);
             } catch (error) {
@@ -100,7 +100,7 @@ client.on('voiceStateUpdate', (before, after) => {
                     console.error(`An error occurred when adding the Text Channel Role to ${after.user.tag}`);
                 }
             }
-        } else if (oldChannel === config.voiceChannel && newChannel !== config.voiceChannel) {
+        } else if (config.voiceChannel.contains(oldChannel) && !config.voiceChannel.contains(newChannel)) {
             try {
                 after.removeRole(config.textChannelRole);
             } catch (error) {
