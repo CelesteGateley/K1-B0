@@ -63,3 +63,4 @@ typings/
 # IntelliJ/Various Stuff
 .idea/
 update.sh
+config.json

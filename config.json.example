@@ -8,6 +8,6 @@
   "voiceChannel": [""],
   "textChannelRole": "",
   "debug": false,
-  "deleteMessages": false
+  "deleteMessages": false,
   "embedColor": "#864991"
 }
