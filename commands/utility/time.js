@@ -13,7 +13,8 @@ module.exports = {
         let uk_raw = moment().tz("Europe/London");
         let ontario_raw = moment().tz("America/Toronto");
         let south_africa_raw = moment().tz("Africa/Johannesburg");
-        let hong_kong_raw = moment().tz("Asia/Hong_Kong");
+        let germany_raw = moment().tz("Europe/Berlin");
+        let florida_raw = moment().tz("Ameria/New_York");
         let parse = false;
 
         if (args.length) {
@@ -27,45 +28,60 @@ module.exports = {
             let date_en = uk_raw.format('YYYY-MM-DD') + ' ';
             let date_on = ontario_raw.format('YYYY-MM-DD') + ' ';
             let date_sa = south_africa_raw.format('YYYY-MM-DD') + ' ';
-            let eng = ""; let ont = ""; let saf = ""; let hk = "";
+            let date_ge = germany_raw.format('YYYY-MM-DD') + ' ';
+            let date_fl = florida_raw.format('YYYY-MM-DD') + ' ';
+            let eng = ""; let ont = ""; let saf = ""; let ge = ""; let fl = "";
             switch (args[0].toLowerCase()) {
                 case 'en':
                     time = moment.tz(date_en + t, "Europe/London");
                     eng = time.tz("Europe/London").format(format);
                     ont = time.tz("America/Toronto").format(format);
                     saf = time.tz("Africa/Johannesburg").format(format);
-                    hk = time.tz("Asia/Hong_Kong").format(format);
+                    ge = time.tz("Europe/Berlin").format(format);
+                    fl = time.tz("America/New_York").format(format);
                     break;
                 case 'on':
                     time = moment.tz(date_on + t, "America/Toronto");
                     eng = time.tz("Europe/London").format(format);
                     ont = time.tz("America/Toronto").format(format);
                     saf = time.tz("Africa/Johannesburg").format(format);
-                    hk = time.tz("Asia/Hong_Kong").format(format);
+                    ge = time.tz("Europe/Berlin").format(format);
+                    fl = time.tz("America/New_York").format(format);
                     break;
                 case 'sa':
                     time = moment.tz(date_sa + t, "Africa/Johannesburg");
                     eng = time.tz("Europe/London").format(format);
                     ont = time.tz("America/Toronto").format(format);
                     saf = time.tz("Africa/Johannesburg").format(format);
-                    hk = time.tz("Asia/Hong_Kong").format(format);
+                    ge = time.tz("Europe/Berlin").format(format);
+                    fl = time.tz("America/New_York").format(format);
                     break;
-                case 'hk':
-                    time = moment.tz(date_sa + t, "Asia/Hong_Kong");
+                case 'ge':
+                    time = moment.tz(date_ge + t, "Europe/Berlin");
                     eng = time.tz("Europe/London").format(format);
                     ont = time.tz("America/Toronto").format(format);
                     saf = time.tz("Africa/Johannesburg").format(format);
-                    hk = time.tz("Asia/Hong_Kong").format(format);
+                    ge = time.tz("Europe/Berlin").format(format);
+                    fl = time.tz("America/New_York").format(format);
+                    break;
+                case 'fl':
+                    time = moment.tz(date_fl + t, "America/New_York");
+                    eng = time.tz("Europe/London").format(format);
+                    ont = time.tz("America/Toronto").format(format);
+                    saf = time.tz("Africa/Johannesburg").format(format);
+                    ge = time.tz("Europe/Berlin").format(format);
+                    fl = time.tz("America/New_York").format(format);
                     break;
                 default:
-                    return message.channel.send("Invalid TZ Code. Valid Codes: en, on, sa, hk")
+                    return message.channel.send("Invalid TZ Code. Valid Codes: en, on, sa, ge, fl")
             }
             return message.channel.send("```YAML" +
                 `\nTime at ${t}\n`
                 + `\nEngland: ${eng}`
                 + `\nOntario: ${ont}`
-                + `\nAfrica: ${saf}`
-                + `\nHongKong: ${hk}`
+                + `\nSAfrica: ${saf}`
+                + `\nGermany: ${ge}`
+                + `\nFlorida: ${fl}`
                 + "```");
         }
 
@@ -73,29 +89,34 @@ module.exports = {
             uk_raw.add(parseInt(args[0]), 'hour');
             ontario_raw.add(parseInt(args[0]), 'hour');
             south_africa_raw.add(parseInt(args[0]), 'hour');
-            hong_kong_raw.add(parseInt(args[0]), 'hour');
+            germany_raw.add(parseInt(args[0]), 'hour');
+            florida_raw.add(parseInt(args[0]), 'hour');
         } if (args.length > 1 && !parse) {
             uk_raw.add(parseInt(args[1]), 'minute');
             ontario_raw.add(parseInt(args[1]), 'minute');
             south_africa_raw.add(parseInt(args[1]), 'minute');
-            hong_kong_raw.add(parseInt(args[1]), 'minute');
+            germany_raw.add(parseInt(args[1]), 'minute');
+            florida_raw.add(parseInt(args[0]), 'minute');
         } if (args.length > 2 && !parse) {
             uk_raw.add(parseInt(args[2]), 'second');
             ontario_raw.add(parseInt(args[2]), 'second');
             south_africa_raw.add(parseInt(args[2]), 'second');
-            hong_kong_raw.add(parseInt(args[2]), 'second');
+            germany_raw.add(parseInt(args[2]), 'second');
+            florida_raw.add(parseInt(args[0]), 'second');
         }
 
         let uk = uk_raw.format(format);
         let ontario = ontario_raw.format(format);
         let south_africa = south_africa_raw.format(format);
-        let hong_kong = hong_kong_raw.format(format);
+        let germany = germany_raw.format(format);
+        let florida = florida_raw.format(format);
 
         let msg = "```YAML\n"
             + `England: ${uk}\n`
             + `Ontario: ${ontario}\n`
-            + `Africa: ${south_africa}\n`
-            + `HongKong: ${hong_kong}\n`
+            + `SAfrica: ${south_africa}\n`
+            + `Germany: ${germany}\n`
+            + `Florida: ${florida}\n`
             + "```";
         return message.channel.send(msg);
     },
