@@ -31,7 +31,7 @@ if (config.enableChatResponseFeatures) {
 
 // Initialize the Text Chanel -> Voice feature
 let useVoice = config.enableVoiceTextChannel;
-if (config.enableVoiceTextChannel && (config.voiceChannel === "" || config.textChannelRole === "")) {
+if (config.enableVoiceTextChannel && (config.voiceChannel === [] || config.textChannelRole === "")) {
     console.error("Voice channel has been enabled, but one of the required config values is unset. This function has been disabled.")
     useVoice = false;
 }
@@ -90,7 +90,7 @@ client.on('voiceStateUpdate', (before, after) => {
         let oldChannel = before.voiceChannelID;
         let newChannel = after.voiceChannelID;
 
-        if (config.voiceChannel.contains(newChannel)) {
+        if (config.voiceChannel.includes(newChannel)) {
             try {
                 after.addRole(config.textChannelRole);
             } catch (error) {
@@ -100,7 +100,7 @@ client.on('voiceStateUpdate', (before, after) => {
                     console.error(`An error occurred when adding the Text Channel Role to ${after.user.tag}`);
                 }
             }
-        } else if (config.voiceChannel.contains(oldChannel) && !config.voiceChannel.contains(newChannel)) {
+        } else if (config.voiceChannel.includes(oldChannel) && !config.voiceChannel.includes(newChannel)) {
             try {
                 after.removeRole(config.textChannelRole);
             } catch (error) {
