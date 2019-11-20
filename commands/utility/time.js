@@ -14,7 +14,7 @@ module.exports = {
         let ontario_raw = moment().tz("America/Toronto");
         let south_africa_raw = moment().tz("Africa/Johannesburg");
         let germany_raw = moment().tz("Europe/Berlin");
-        let florida_raw = moment().tz("Ameria/New_York");
+        let florida_raw = moment().tz("America/New_York");
         let parse = false;
 
         if (args.length) {
