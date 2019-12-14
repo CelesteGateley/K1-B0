@@ -55,8 +55,6 @@ client.on('message', message => {
     const args = message.content.slice(config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    console.log(message.content);
-
     let responded = false;
     client.responses.forEach(function(value, key) {
         let regex = new RegExp(key, "gi");
