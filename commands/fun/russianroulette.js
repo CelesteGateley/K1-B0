@@ -13,7 +13,7 @@ module.exports = {
     args: false,
     // Code to be executed when the command is run
     execute(message, args) {
-        let rr_bullet = Math.floor(Math.random() * (6 - 1) + 1)
+        let rr_bullet = Math.floor(Math.random() * (6 - 1) + 1);
         let rr_count = 1;
         message.channel.send("You spin the cylinder of the revolver with 1 bullet in it...");
         setTimeout(function() {
