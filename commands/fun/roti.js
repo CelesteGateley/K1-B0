@@ -17,8 +17,8 @@ module.exports = {
     // Code to be executed when the command is run
     execute(message, args) {
         let roti = fs.readFileSync(appRoot + "/assets/roti.txt", 'utf8').split("\n");
-        let responseRandom = roti[randint(1, 102)]
-        let response = roti[parseInt(args.join(" ")) - 1]
+        let responseRandom = roti[randint(1, 102)];
+        let response = roti[parseInt(args.join(" ")) - 1];
 
         if (args.join(" ") === "") {
             message.reply(responseRandom);
