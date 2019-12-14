@@ -23,7 +23,7 @@ if (config.enableChatResponseFeatures) {
     const responseFiles = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
     for (const file of responseFiles) {
         const response = require(`./responses/${file}`);
-        for (const trigger of response.triggers) { client.responses.set("(^|\\s)" + trigger + "($|\\.|\\?|,)", response); }
+        for (const trigger of response.triggers) { client.responses.set("\\b(\\w*" + trigger + "\\w*)\\b", response); }
         // Custom Sort function for the response modules, using priority as a basis
         client.responses.sort(function (a, b) { if (a.priority < b.priority) { return 1; } else if (a.priority === b.priority) { return 0;} else { return -1; }});
     }
@@ -55,10 +55,15 @@ client.on('message', message => {
     const args = message.content.slice(config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 
+    console.log(message.content);
+
     let responded = false;
     client.responses.forEach(function(value, key) {
-        if (message.content.toLowerCase().match(key) && !responded) {
-            if (Math.random() <= value.chance / 100) { value.execute(message); responded = true; }
+        let regex = new RegExp(key, "gi");
+        if (regex.test(message.content) && !responded) {
+            if (Math.random() <= value.chance / 100) {
+                value.execute(message); responded = true;
+            }
         }
     });
 
@@ -69,7 +74,6 @@ client.on('message', message => {
                 || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return;
-
     if (command.args && !args.length) {
         return message.channel.send(`You didn't provide any arguments, ${message.author}`);
     }
