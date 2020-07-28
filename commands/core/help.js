@@ -17,7 +17,7 @@ module.exports = {
         client.commands.forEach((value) => { cmdCatArray[value.category].push(value); });
 
         if (!args.length) {
-            let embed = new discord.RichEmbed().setColor(embedColor);
+            let embed = new discord.MessageEmbed().setColor(embedColor);
             embed.setTitle("K1-B0 Help Command");
             embed.setDescription("Here is the help information for the K1-B0 discord bot!");
             for (let cat in modules) {

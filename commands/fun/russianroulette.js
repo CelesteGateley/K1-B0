@@ -2,7 +2,7 @@ module.exports = {
     // The default name of the command
     name: "russianroulette",
     // The Category of the command (Used for help)
-    category: "",
+    category: "fun",
     // Description of the command for the help menu
     description: "",
     // Aliases that the command will also trigger
