@@ -1,11 +1,11 @@
 {
-  "configVersion": 3,
+  "configVersion": 4,
   "prefix": "=",
   "token": "{ENTER TOKEN HERE}",
   "enableChatResponseFeatures": false,
   "robophobicTimeout": 90,
   "enableVoiceTextChannel": false,
-  "voiceChannel": [""],
+  "voiceChannel": {},
   "textChannelRole": "",
   "debug": false,
   "deleteMessages": false,

@@ -31,7 +31,7 @@ if (config.enableChatResponseFeatures) {
 
 // Initialize the Text Chanel -> Voice feature
 let useVoice = config.enableVoiceTextChannel;
-if (config.enableVoiceTextChannel && (config.voiceChannel === [] || config.textChannelRole === "")) {
+if (config.enableVoiceTextChannel && (config.voiceChannel === {})) {
     console.error("Voice channel has been enabled, but one of the required config values is unset. This function has been disabled.")
     useVoice = false;
 }
@@ -44,7 +44,7 @@ if (config.configVersion !== currentConfigVersion) {
 
 // Log that the bot has started and then set the activity
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Logged in as ${client.user.tag} at ${new Date()}!`);
     client.user.setActivity(config.prefix + 'help for a list of commands!');
 });
 
@@ -89,27 +89,27 @@ client.on('message', message => {
 
 client.on('voiceStateUpdate', (before, after) => {
     if (useVoice) {
-        let oldChannel = before.voiceChannelID;
-        let newChannel = after.voiceChannelID;
-
-        if (config.voiceChannel.includes(newChannel)) {
+        if (before.channelID in config.voiceChannel) {
             try {
-                after.addRole(config.textChannelRole);
+                after.guild.channels.cache.get(config.voiceChannel[before.channelID]).permissionOverwrites.get(before.member.id).delete();
             } catch (error) {
                 if (config.debug) {
-                    console.error(`An error occurred when adding the Text Channel Role to ${after.user.tag}`, error);
+                    console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}`, error);
                 } else {
-                    console.error(`An error occurred when adding the Text Channel Role to ${after.user.tag}`);
+                    console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}v`);
                 }
             }
-        } else if (config.voiceChannel.includes(oldChannel) && !config.voiceChannel.includes(newChannel)) {
+        }
+        if (after.channelID in config.voiceChannel) {
             try {
-                after.removeRole(config.textChannelRole);
+                after.guild.channels.cache.get(config.voiceChannel[after.channelID]).createOverwrite(after.member.user, { VIEW_CHANNEL: true })
+                    .then(channel => after.guild.channels.cache.get(config.voiceChannel[after.channelID])
+                        .send(`<@${after.member.id}> You can use this channel to send messages to those in your voice channel!`));
             } catch (error) {
                 if (config.debug) {
-                    console.error(`An error occurred when removing the Text Channel Role from ${after.user.tag}`, error);
+                    console.error(`An error occurred when adding Text Channel for Voice permissions on ${after.member.name}`, error);
                 } else {
-                    console.error(`An error occurred when adding the Text Channel Role from ${after.user.tag}`);
+                    console.error(`An error occurred when adding Text Channel for Voice permissions on ${after.member.name}`);
                 }
             }
         }
