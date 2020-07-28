@@ -96,7 +96,7 @@ client.on('voiceStateUpdate', (before, after) => {
                 if (config.debug) {
                     console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}`, error);
                 } else {
-                    console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}v`);
+                    console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}`);
                 }
             }
         }
