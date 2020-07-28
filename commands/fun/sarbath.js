@@ -8,7 +8,7 @@ module.exports = {
     args: false,
     execute(message, args) {
         return message.reply('', {
-            file: 'https://cdn.discordapp.com/attachments/263015254064103424/359043149542326272/Tet_bahtroom_jke.png'
-        });
+            files: [appRoot + "/assets/images/sarbath.jpg"]
+        }).catch(err => console.error(err));
     }
 };
