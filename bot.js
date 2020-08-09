@@ -102,13 +102,7 @@ client.on('voiceStateUpdate', (before, after) => {
         }
         if (after.channelID in config.voiceChannel) {
             try {
-                after.guild.channels.cache.get(config.voiceChannel[after.channelID]).createOverwrite(after.member.user, { VIEW_CHANNEL: true })
-                    .then(channel => after.guild.channels.cache.get(config.voiceChannel[after.channelID])
-                        .send(`<@${after.member.id}> You can use this channel to send messages to those in your voice channel!`)).then(message => {
-                            setTimeout(function() {
-                                message.delete();
-                            }, 30000)
-                });
+                after.guild.channels.cache.get(config.voiceChannel[after.channelID]).createOverwrite(after.member.user, { VIEW_CHANNEL: true });
             } catch (error) {
                 if (config.debug) {
                     console.error(`An error occurred when adding Text Channel for Voice permissions on ${after.member.name}`, error);
