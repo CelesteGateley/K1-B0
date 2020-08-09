@@ -18,7 +18,7 @@ module.exports = {
         }
         let x;
         let counter = 0;
-        let embed = new discord.RichEmbed().setColor(embedColor);
+        let embed = new discord.MessageEmbed().setColor(embedColor);
         for (x in info_file) {
             if (counter === 0) {
                 embed.setTitle(x);
