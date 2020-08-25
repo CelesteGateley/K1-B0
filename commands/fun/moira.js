@@ -7,7 +7,7 @@ module.exports = {
     usage: '',
     args: false,
     execute(message, args) {
-        return message.reply('', {
+        return message.reply('https://youtu.be/eXyfk6QUzp8?t=473', {
             files: [appRoot + "/assets/images/winnable.jpg"]
         }).catch(err => console.error(err));
     }
