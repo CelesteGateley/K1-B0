@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
 const { timezones } = require('../../config.json');
-const format = 'YYYY-MMMM-DD hh:mm:ss A';
-const format24 = 'YYYY-MMMM-DD HH:mm:ss';
+const format = 'YYYY-MMM-DD hh:mm:ss A';
+const format24 = 'YYYY-MMM-DD HH:mm:ss';
 const tableImport =  require('table');
 const { table } = tableImport;
 
