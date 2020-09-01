@@ -5,7 +5,7 @@ const config = require("./config.json");
 const modules = require("./modules.json");
 // Sets the app root for use in other files, and sets the config version for checking later
 global.appRoot = path.resolve(__dirname);
-const currentConfigVersion = 3;
+const currentConfigVersion = 6;
 
 // Sets up the client, and collections required for storing the commands and responses
 const client = new Discord.Client();

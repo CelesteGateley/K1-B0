@@ -1,5 +1,5 @@
 {
-  "configVersion": 4,
+  "configVersion": 6,
   "prefix": "=",
   "token": "{ENTER TOKEN HERE}",
   "enableChatResponseFeatures": false,
@@ -9,5 +9,13 @@
   "textChannelRole": "",
   "debug": false,
   "deleteMessages": false,
-  "embedColor": "#864991"
+  "embedColor": "#864991",
+  "timezones": {
+      "Los Angeles": { "timezone": "America/Los_Angeles", "code": "la"},
+      "Ontario": { "timezone": "America/Toronto", "code": "on"},
+      "United Kingdom": { "timezone": "Europe/London", "code": "uk"},
+      "South Africa": { "timezone": "Africa/Johannesburg", "code": "sa"},
+      "Norway": { "timezone": "Europe/Oslo", "code": "no"},
+      "Germany": { "timezone": "Europe/Berlin", "code": "ge"}
+    }
 }

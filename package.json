@@ -23,6 +23,7 @@
     "moment-timezone": "^0.5.31",
     "node-sentiment": "0.0.7",
     "request": "^2.88.2",
+    "table": "^6.0.1",
     "uws": "^100.0.1"
   }
 }
