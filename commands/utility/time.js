@@ -26,7 +26,7 @@ function addTimes(hours, minutes, seconds) {
     if (hours > 0) { inTime +=  hours + (hours > 1 ? " hours " : " hour "); }
     if (minutes > 0) { inTime +=  hours + (hours > 1 ? " minutes " : " minute "); }
     if (seconds > 0) { inTime +=  hours + (hours > 1 ? " seconds " : " second "); }
-    let returnValue = [["Code","Location", "(12 Hours) Time and Date" + (inTime !== "" ? " in " + inTime : ""), "(24 Hours) Time and Date" + (inTime !== "" ? " in " + inTime : "")]];
+    let returnValue = [["Code","Location", "(12h) Time and Date" + (inTime !== "" ? " in " + inTime : ""), "(24h) Time and Date" + (inTime !== "" ? " in " + inTime : "")]];
     for (timezone in timezones) {
         let raw = moment().tz(timezones[timezone]["timezone"] );
         raw.add(hours, 'hour');
@@ -39,7 +39,7 @@ function addTimes(hours, minutes, seconds) {
 
 function formatTimes(time, atTime) {
     let timezone;
-    let returnValue = [["Code", "Location", "(12 Hours) Time and Date at " + atTime, "(24 Hours) Time and Date at " + atTime]];
+    let returnValue = [["Code", "Location", "(12h) Time and Date at " + atTime, "(24h) Time and Date at " + atTime]];
     for (timezone in timezones) {
         returnValue.push([timezones[timezone]["code"],timezone, time.tz(timezones[timezone]["timezone"]).format(format),time.tz(timezones[timezone]["timezone"]).format(format24)]);
     }
@@ -62,10 +62,15 @@ module.exports = {
         if (args.length > 1 && parse) {
             let toTime = args[1];
             if (!isNaN(Number(args[1]))) { toTime = toTime.length === 3 ? "0" + toTime.slice(0,1) + ":" + toTime.slice(1,4) : toTime.slice(0,2) + ":" + toTime.slice(2,4); }
-            let time = getTime(args[0].toLowerCase(), toTime)
+            let time;
+            try {
+                time = getTime(args[0].toLowerCase(), toTime)
+            } catch (err) {
+                return message.reply(err);
+            }
 
             return message.channel.send("```" +
-                `\nTime at ${toTime}\n`
+                `\nT`
                 + table(formatTimes(time, toTime))
                 + "```");
         }
