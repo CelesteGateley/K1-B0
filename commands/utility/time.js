@@ -70,7 +70,7 @@ module.exports = {
             }
 
             return message.channel.send("```" +
-                `\nT`
+                `\n`
                 + table(formatTimes(time, toTime))
                 + "```");
         }
