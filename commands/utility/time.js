@@ -6,28 +6,35 @@ const tableImport =  require('table');
 const { table } = tableImport;
 
 function getTime(code, time) {
-    let timezone;
+    let key;
     let valid_codes = ""
-    for (timezone in timezones) {
+    let orderedKeys = sortTimezones();
+
+    for (key in orderedKeys) {
+        let timezone = orderedKeys[key];
         if (timezones[timezone]["code"] === code.toLowerCase()) {
             let raw = moment().tz(timezones[timezone]["timezone"]);
             let date = raw.format('YYYY-MM-DD') + ' ';
-            return moment.tz(date + time, timezones[timezone]["timezone"])
+            return moment.tz(date + time, timezones[timezone]["timezone"]);
         }
-        valid_codes += timezones[timezone]["code"] + "/"
+        valid_codes += timezones[timezone]["code"] + "/";
     }
     throw ("Invalid Timezones. Valid Timezones: " + valid_codes.substr(0, valid_codes.length - 1));
 }
 
 function addTimes(hours, minutes, seconds) {
-    let timezone;
+    let key;
 
     let inTime = "";
     if (hours > 0) { inTime +=  hours + (hours > 1 ? " hours " : " hour "); }
     if (minutes > 0) { inTime +=  hours + (hours > 1 ? " minutes " : " minute "); }
     if (seconds > 0) { inTime +=  hours + (hours > 1 ? " seconds " : " second "); }
     let returnValue = [["Code","Location", "(12h) Time and Date" + (inTime !== "" ? " in " + inTime : ""), "(24h) Time and Date" + (inTime !== "" ? " in " + inTime : "")]];
-    for (timezone in timezones) {
+
+    let orderedKeys = sortTimezones();
+
+    for (key in orderedKeys) {
+        let timezone = orderedKeys[key];
         let raw = moment().tz(timezones[timezone]["timezone"] );
         raw.add(hours, 'hour');
         raw.add(minutes, 'minute');
@@ -38,12 +45,41 @@ function addTimes(hours, minutes, seconds) {
 }
 
 function formatTimes(time, atTime) {
-    let timezone;
+    let key;
     let returnValue = [["Code", "Location", "(12h) Time and Date at " + atTime, "(24h) Time and Date at " + atTime]];
-    for (timezone in timezones) {
+    let orderedKeys = sortTimezones();
+
+    for (key in orderedKeys) {
+        let timezone = orderedKeys[key];
         returnValue.push([timezones[timezone]["code"],timezone, time.tz(timezones[timezone]["timezone"]).format(format),time.tz(timezones[timezone]["timezone"]).format(format24)]);
     }
     return returnValue;
+}
+
+function sortTimezones() {
+    let sortedTimezones = {};
+
+    let timezone;
+
+    for (timezone in timezones) {
+        sortedTimezones[timezone] = moment().tz(timezones[timezone]["timezone"]).utcOffset();
+    }
+
+    let items = Object.keys(sortedTimezones).map(function(key) {
+        return [key, sortedTimezones[key]];
+    });
+
+    items.sort(function(first, second) {
+        return first[1] - second[1];
+    });
+
+    sortedTimezones = [];
+
+    for (timezone in items) {
+       sortedTimezones.push(items[timezone][0])
+    }
+
+    return sortedTimezones;
 }
 
 module.exports = {
@@ -56,6 +92,7 @@ module.exports = {
     args: false,
     execute(message, args) {
         let parse = false;
+
 
         if (args.length) { parse = isNaN(parseInt(args[0])); }
 
