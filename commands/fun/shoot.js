@@ -25,7 +25,7 @@ module.exports = {
 
         if (message.author.id === user.id) {
             message.channel.send(`${message.author} commited suicide!`, { files: [image_kms] });
-        } else if (user.id === "147590676391919616" && randint(1, 2) === 1) {
+        } else if ((user.id === "147590676391919616"  || user.permissions.has("ADMINISTRATOR")) && randint(1, 2) === 1) {
             message.channel.send(`You attempted to shoot ${user}, but they dodged your bullet! Better luck next time, ${message.author}`, { files: [image_dodge] });
         } else if (user === "@everyone" || user === "everyone") {
             message.channel.send(`${message.author} decided to commit genocide!`, {files: [image_geno]});
