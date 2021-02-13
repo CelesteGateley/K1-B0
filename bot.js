@@ -89,6 +89,7 @@ client.on('message', message => {
 
 client.on('voiceStateUpdate', (before, after) => {
     if (useVoice) {
+        if (before.channelID === after.channelID) return;
         if (before.channelID in config.voiceChannel) {
             try {
                 after.guild.channels.cache.get(config.voiceChannel[before.channelID]).permissionOverwrites.get(before.member.id).delete();
@@ -96,7 +97,7 @@ client.on('voiceStateUpdate', (before, after) => {
                 if (config.debug) {
                     console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}`, error);
                 } else {
-                    console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}na`);
+                    console.error(`An error occurred when removing Text Channel for Voice permissions on ${after.member.name}`);
                 }
             }
         }
