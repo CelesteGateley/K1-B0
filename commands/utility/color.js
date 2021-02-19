@@ -1,5 +1,5 @@
 const discord = require("discord.js");
-const { embedColor } = require('../../config.json');
+const { embedColor, prefix } = require('../../config.json');
 
 module.exports = {
     // The default name of the command
@@ -43,9 +43,9 @@ module.exports = {
         if (args[0] === "info") {
             let embed = new discord.MessageEmbed().setColor(embedColor);
             embed.setTitle("How to use the color command")
-            embed.addField("color setup", "This sets up the color command to be used by everyone")
-            embed.addField("color cleanup", "Removes all color roles and disables color")
-            embed.addField("color (hex)", "Set your color. For a color picker, go to https://www.rapidtables.com/web/color/RGB_Color.html")
+            embed.addField(prefix + "color setup", "This sets up the color command to be used by everyone")
+            embed.addField(prefix + "color cleanup", "Removes all color roles and disables color")
+            embed.addField(prefix + "color (hex)", "Set your color. For a color picker, go to https://www.rapidtables.com/web/color/RGB_Color.html")
             return message.reply(embed);
         }
         if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
