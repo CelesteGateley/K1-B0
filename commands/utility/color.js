@@ -1,3 +1,6 @@
+const discord = require("discord.js");
+const { embedColor } = require('../../config.json');
+
 module.exports = {
     // The default name of the command
     name: "color",
@@ -37,17 +40,27 @@ module.exports = {
                 return message.reply("All color roles have been removed");
             }
         }
+        if (args[0] === "info") {
+            let embed = new discord.MessageEmbed().setColor(embedColor);
+            embed.setTitle("How to use the color command")
+            embed.addField("color setup", "This sets up the color command to be used by everyone")
+            embed.addField("color cleanup", "Removes all color roles and disables color")
+            embed.addField("color (hex)", "Set your color. For a color picker, go to https://www.rapidtables.com/web/color/RGB_Color.html")
+            return message.reply(embed);
+        }
         if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
             return message.reply("Color is not yet setup!")
         }
-        if (!args[0].match(/^#([0-9a-f]{6})$/i)) return message.reply("That is an invalid color");
+        if (args[0].match(/^#([0-9a-f]{6})$/i)) {}
+        else if (args[0].match(/^([0-9a-f]{6})$/i)) args[0] = "#" + args[0];
+        else return message.reply("That is an invalid color");
+
         message.guild.roles.create({
             data: {name: 'Color'+args[0], color: args[0]},
             reason: 'Added a color role',
-        })
-            .then(role => {
-                message.member.roles.add(role.id);
-            });
+        }).then(role => message.member.roles.add(role.id));
+
+
         return message.reply("Your color has been setup!")
     },
 };
