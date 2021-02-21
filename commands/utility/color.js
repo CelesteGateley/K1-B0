@@ -1,5 +1,13 @@
 const discord = require("discord.js");
+const cron = require('node-cron')
 const { embedColor, prefix } = require('../../config.json');
+let taskScheduled = false;
+
+const randomizerRoles = [];
+
+function generateRandomHexColor() {
+    return "#" + Math.floor(Math.random()*16777215).toString(16);
+}
 
 module.exports = {
     // The default name of the command
@@ -16,6 +24,13 @@ module.exports = {
     args: true,
     // Code to be executed when the command is run
     execute(message, args) {
+        if (!taskScheduled) {
+            cron.schedule("* * * * *", () => {
+                for (let role in randomizerRoles) {
+                    randomizerRoles[role].setColor(generateRandomHexColor());
+                }
+            })
+        }
         if (args[0] === "setup") {
             if (message.guild.members.cache.get(message.author.id).permissions.has("ADMINISTRATOR")) {
                 message.guild.roles.create({
@@ -58,12 +73,20 @@ module.exports = {
             embed.addField(prefix + "color remove", "Removes your colors");
             return message.reply(embed);
         }
+        if (args[0] === "randomize") {
+            let color = generateRandomHexColor();
+            message.guild.roles.create({
+                data: {name: 'Color'+color, color: color},
+                reason: 'Added a color role',
+            }).then(role => {message.member.roles.add(role.id); randomizerRoles.push(role);});
+            return message.reply("Your color has been randomized").then((msg) => { setTimeout(() => msg.delete(), 10000)});
+        }
         if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
             return message.reply("Color is not yet setup!")
         }
         if (args[0].match(/^#([0-9a-f]{6})$/i)) {}
         else if (args[0].match(/^([0-9a-f]{6})$/i)) args[0] = "#" + args[0];
-        else return message.reply("That is an invalid color");
+        else return message.reply("That is an invalid color").then((msg) => { setTimeout(() => msg.delete(), 10000)});
 
         message.guild.roles.create({
             data: {name: 'Color'+args[0], color: args[0]},
@@ -71,6 +94,6 @@ module.exports = {
         }).then(role => message.member.roles.add(role.id));
 
 
-        return message.reply("Your color has been setup!")
+        return message.reply("Your color has been setup!").then((msg) => { setTimeout(() => msg.delete(), 10000)});
     },
 };
