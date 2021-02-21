@@ -25,8 +25,8 @@ module.exports = {
                     .then(role => {
                         message.guild.members.cache.get(message.client.user.id).roles.add(role.id);
                     });
+                return message.reply("Colors have been setup");
             }
-            return message.reply("Colors have been setup");
         }
         if (args[0] === "cleanup") {
             if (message.guild.members.cache.get(message.author.id).permissions.has("ADMINISTRATOR")) {
