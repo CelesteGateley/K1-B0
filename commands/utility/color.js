@@ -29,7 +29,8 @@ module.exports = {
                 for (let role in randomizerRoles) {
                     randomizerRoles[role].setColor(generateRandomHexColor());
                 }
-            })
+            });
+            taskScheduled = true;
         }
         if (args[0] === "setup") {
             if (message.guild.members.cache.get(message.author.id).permissions.has("ADMINISTRATOR")) {
