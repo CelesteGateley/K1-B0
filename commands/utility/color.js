@@ -40,12 +40,22 @@ module.exports = {
                 return message.reply("All color roles have been removed");
             }
         }
+        if (args[0] === "remove") {
+            message.member.roles.cache.each(role => {
+                if (role.name.includes("Color")) {
+                    role.delete();
+                }
+            });
+            return message.reply("Your color has been removed!");
+        }
         if (args[0] === "info") {
             let embed = new discord.MessageEmbed().setColor(embedColor);
-            embed.setTitle("How to use the color command")
-            embed.addField(prefix + "color setup", "This sets up the color command to be used by everyone")
-            embed.addField(prefix + "color cleanup", "Removes all color roles and disables color")
-            embed.addField(prefix + "color (hex)", "Set your color. For a color picker, go to https://www.rapidtables.com/web/color/RGB_Color.html")
+            embed.setTitle("How to use the color command");
+            embed.addField(prefix + "color setup (ADMIN)", "This sets up the color command to be used by everyone");
+            embed.addField(prefix + "color cleanup (ADMIN)", "Removes all color roles and disables color");
+            embed.addField(prefix + "color (hex)", "Set your color. For a color picker, " +
+                "go to https://www.rapidtables.com/web/color/RGB_Color.html");
+            embed.addField(prefix + "color remove", "Removes your colors");
             return message.reply(embed);
         }
         if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
