@@ -46,7 +46,7 @@ module.exports = {
                     role.delete();
                 }
             });
-            return message.reply("Your color has been removed!");
+            return message.reply("Your color has been removed!").then((msg) => { setTimeout(() => msg.delete(), 10000)});
         }
         if (args[0] === "info") {
             let embed = new discord.MessageEmbed().setColor(embedColor);
