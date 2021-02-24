@@ -4,7 +4,7 @@ const fs = require('fs');
 const { embedColor, prefix } = require('../../config.json');
 let taskScheduled = false;
 
-const jsonFile = global.appRoot + "/randomizers.json"
+/*const jsonFile = global.appRoot + "/randomizers.json"
 
 function write(json) {
     let data = JSON.stringify(json);
@@ -18,7 +18,7 @@ function read() {
 
 function generateRandomHexColor() {
     return "#" + Math.floor(Math.random()*16777215).toString(16);
-}
+}*/
 
 module.exports = {
     // The default name of the command
@@ -44,15 +44,15 @@ module.exports = {
                     .then(role => {
                         message.guild.members.cache.get(message.client.user.id).roles.add(role.id);
                     });
-                message.guild.roles.create({
+                /*message.guild.roles.create({
                     data: {name: 'ColorRandomizer', color: generateRandomHexColor()},
                     reason: 'RandomColors role',
                 }).then(role => {
                     let data = read();
                     data[message.guild.id] = role.id;
                     write(data);
-                });
-                return message.reply("Colors have been setup");
+                });*/
+                return message.reply("Colors have been setup").then((msg) => { setTimeout(() => msg.delete(), 10000)});;
             }
         }
         if (args[0] === "cleanup") {
@@ -63,15 +63,15 @@ module.exports = {
                             role.delete();
                         }
                     });
-                    let data = read();
+                    /*let data = read();
                     data[message.guild.id] = null;
-                    write(data);
+                    write(data);*/
                 });
-                return message.reply("All color roles have been removed");
+                return message.reply("All color roles have been removed").then((msg) => { setTimeout(() => msg.delete(), 10000)});;
             }
         }
         if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
-            return message.reply("Color is not yet setup!")
+            return message.reply("Color is not yet setup!").then((msg) => { setTimeout(() => msg.delete(), 10000)});
         }
         if (args[0] === "remove") {
             message.member.roles.cache.each(role => {
@@ -91,11 +91,11 @@ module.exports = {
             embed.addField(prefix + "color remove", "Removes your colors");
             return message.reply(embed);
         }
-        if (args[0] === "randomize") {
+        /*if (args[0] === "randomize") {
             let data = read();
             message.member.roles.add(data[message.guild.id]).catch(err => console.log(err));
             return message.reply("Your color has been randomized").then((msg) => { setTimeout(() => msg.delete(), 10000)});
-        }
+        }*/
 
         if (args[0].match(/^#([0-9a-f]{6})$/i)) {}
         else if (args[0].match(/^([0-9a-f]{6})$/i)) args[0] = "#" + args[0];
