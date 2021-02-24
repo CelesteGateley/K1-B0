@@ -21,7 +21,6 @@ function generateRandomHexColor() {
     return "#" + Math.floor(Math.random()*16777215).toString(16);
 }
 
-
 setInterval(() => {
     let data = read()
     for (let key in data) {

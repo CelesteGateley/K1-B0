@@ -4,6 +4,8 @@ const fs = require('fs');
 const { embedColor, prefix } = require('../../config.json');
 let taskScheduled = false;
 
+const jsonFile = global.appRoot + "/randomizers.json"
+
 function write(json) {
     let data = JSON.stringify(json);
     fs.writeFileSync(jsonFile, data);
