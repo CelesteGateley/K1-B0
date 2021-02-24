@@ -25,13 +25,9 @@ setInterval(() => {
     let data = read()
     for (let key in data) {
         if (data[key] === null) continue;
-        global.client.guilds.fetch(key).then(guild => {
-            guild.roles.fetch(data[key]).then(role => {
-                role.setColor(generateRandomHexColor())
-            });
-        });
+        global.client.guilds.cache.get(key).roles.cache.get(data[key]).setColor(generateRandomHexColor());
     }
-}, 2000)
+}, 1000)
 
 function write(json) {
     let data = JSON.stringify(json);
