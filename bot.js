@@ -15,6 +15,31 @@ client.responses = new Discord.Collection();
 
 if (!fs.existsSync('randomizers.json')) { fs.writeFileSync('randomizers.json', "{}"); }
 
+const jsonFile = global.appRoot + "/randomizers.json"
+
+function generateRandomHexColor() {
+    return "#" + Math.floor(Math.random()*16777215).toString(16);
+}
+
+
+setInterval(() => {
+    let data = read()
+    for (let key in data) {
+        if (data[key] === null) continue;
+        global.client.guilds.cache.get(key).roles.cache.get(data[key]).setColor(generateRandomHexColor());
+    }
+}, 1000)
+
+function write(json) {
+    let data = JSON.stringify(json);
+    fs.writeFileSync(jsonFile, data);
+}
+
+function read() {
+    let file = fs.readFileSync(jsonFile);
+    return JSON.parse(file);
+}
+
 // Initialize all modules
 for (let x in modules) {
     const commandFiles = fs.readdirSync('./commands/' + x).filter(file => file.endsWith('.js'));

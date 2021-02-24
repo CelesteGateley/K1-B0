@@ -4,16 +4,6 @@ const fs = require('fs');
 const { embedColor, prefix } = require('../../config.json');
 let taskScheduled = false;
 
-const jsonFile = global.appRoot + "/randomizers.json"
-
-setInterval(() => {
-    let data = read()
-    for (let key in data) {
-        if (data[key] === null) continue;
-        global.client.guilds.cache.get(key).roles.cache.get(data[key]).setColor(generateRandomHexColor());
-    }
-}, 1000)
-
 function write(json) {
     let data = JSON.stringify(json);
     fs.writeFileSync(jsonFile, data);
@@ -67,13 +57,13 @@ module.exports = {
             if (message.guild.members.cache.get(message.author.id).permissions.has("ADMINISTRATOR")) {
                 message.guild.roles.fetch().then(roles => {
                     roles.cache.each(role => {
-                        let data = read();
-                        data[message.guild.id] = null;
-                        write(data);
                         if (role.name.includes("Color")) {
                             role.delete();
                         }
                     });
+                    let data = read();
+                    data[message.guild.id] = null;
+                    write(data);
                 });
                 return message.reply("All color roles have been removed");
             }
