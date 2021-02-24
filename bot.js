@@ -9,8 +9,11 @@ const currentConfigVersion = 6;
 
 // Sets up the client, and collections required for storing the commands and responses
 const client = new Discord.Client();
+global.client = client;
 client.commands = new Discord.Collection();
 client.responses = new Discord.Collection();
+
+if (!fs.existsSync('randomizers.json')) { fs.writeFileSync('randomizers.json', "{}"); }
 
 // Initialize all modules
 for (let x in modules) {

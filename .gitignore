@@ -64,3 +64,4 @@ typings/
 .idea/
 update.sh
 config.json
+randomizers.json

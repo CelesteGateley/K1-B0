@@ -1,9 +1,28 @@
 const discord = require("discord.js");
 const cron = require('node-cron')
+const fs = require('fs');
 const { embedColor, prefix } = require('../../config.json');
 let taskScheduled = false;
 
-const randomizerRoles = [];
+const jsonFile = global.appRoot + "/randomizers.json"
+
+setInterval(() => {
+    let data = read()
+    for (let key in data) {
+        if (data[key] === null) continue;
+        global.client.guilds.cache.get(key).roles.cache.get(data[key]).setColor(generateRandomHexColor());
+    }
+}, 1000)
+
+function write(json) {
+    let data = JSON.stringify(json);
+    fs.writeFileSync(jsonFile, data);
+}
+
+function read() {
+    let file = fs.readFileSync(jsonFile);
+    return JSON.parse(file);
+}
 
 function generateRandomHexColor() {
     return "#" + Math.floor(Math.random()*16777215).toString(16);
@@ -24,14 +43,6 @@ module.exports = {
     args: true,
     // Code to be executed when the command is run
     execute(message, args) {
-        if (!taskScheduled) {
-            cron.schedule("* * * * *", () => {
-                for (let role in randomizerRoles) {
-                    randomizerRoles[role].setColor(generateRandomHexColor());
-                }
-            });
-            taskScheduled = true;
-        }
         if (args[0] === "setup") {
             if (message.guild.members.cache.get(message.author.id).permissions.has("ADMINISTRATOR")) {
                 message.guild.roles.create({
@@ -41,6 +52,14 @@ module.exports = {
                     .then(role => {
                         message.guild.members.cache.get(message.client.user.id).roles.add(role.id);
                     });
+                message.guild.roles.create({
+                    data: {name: 'ColorRandomizer', color: generateRandomHexColor()},
+                    reason: 'RandomColors role',
+                }).then(role => {
+                    let data = read();
+                    data[message.guild.id] = role.id;
+                    write(data);
+                });
                 return message.reply("Colors have been setup");
             }
         }
@@ -48,6 +67,9 @@ module.exports = {
             if (message.guild.members.cache.get(message.author.id).permissions.has("ADMINISTRATOR")) {
                 message.guild.roles.fetch().then(roles => {
                     roles.cache.each(role => {
+                        let data = read();
+                        data[message.guild.id] = null;
+                        write(data);
                         if (role.name.includes("Color")) {
                             role.delete();
                         }
@@ -55,6 +77,9 @@ module.exports = {
                 });
                 return message.reply("All color roles have been removed");
             }
+        }
+        if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
+            return message.reply("Color is not yet setup!")
         }
         if (args[0] === "remove") {
             message.member.roles.cache.each(role => {
@@ -75,16 +100,11 @@ module.exports = {
             return message.reply(embed);
         }
         if (args[0] === "randomize") {
-            let color = generateRandomHexColor();
-            message.guild.roles.create({
-                data: {name: 'Color'+color, color: color},
-                reason: 'Added a color role',
-            }).then(role => {message.member.roles.add(role.id); randomizerRoles.push(role);});
+            let data = read();
+            message.member.roles.add(data[message.guild.id]).catch(err => console.log(err));
             return message.reply("Your color has been randomized").then((msg) => { setTimeout(() => msg.delete(), 10000)});
         }
-        if (!message.guild.members.cache.get(message.client.user.id).roles.cache.some(r=>["ColorSetup"].includes(r.name))) {
-            return message.reply("Color is not yet setup!")
-        }
+
         if (args[0].match(/^#([0-9a-f]{6})$/i)) {}
         else if (args[0].match(/^([0-9a-f]{6})$/i)) args[0] = "#" + args[0];
         else return message.reply("That is an invalid color").then((msg) => { setTimeout(() => msg.delete(), 10000)});
