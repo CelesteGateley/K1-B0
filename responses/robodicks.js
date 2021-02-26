@@ -7,8 +7,8 @@ module.exports = {
     priority: 0,
     // Code to execute when the response is triggered.
     execute(message) {
-        message.channel.send('', {
-            file: 'https://cdn.discordapp.com/attachments/263015254064103424/488406716220964878/310.png'
-        });
+        return message.channel.send('', {
+            files: [appRoot + "/assets/images/k1b0blush.png"]
+        }).catch(err => console.error(err));
     },
 };

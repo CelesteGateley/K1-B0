@@ -52,7 +52,7 @@ if (config.enableChatResponseFeatures) {
     const responseFiles = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
     for (const file of responseFiles) {
         const response = require(`./responses/${file}`);
-        for (const trigger of response.triggers) { client.responses.set("\\b(\\w*" + trigger + "\\w*)\\b", response); }
+        for (const trigger of response.triggers) { client.responses.set(trigger, response); }
         // Custom Sort function for the response modules, using priority as a basis
         client.responses.sort(function (a, b) { if (a.priority < b.priority) { return 1; } else if (a.priority === b.priority) { return 0;} else { return -1; }});
     }
@@ -86,14 +86,12 @@ client.on('message', message => {
 
     let responded = false;
     client.responses.forEach(function(value, key) {
-        let regex = new RegExp(key, "gi");
-        if (regex.test(message.content) && !responded) {
+        if (message.content.includes(key) && !responded) {
             if (Math.random() <= value.chance / 100) {
                 value.execute(message); responded = true;
             }
         }
     });
-
 
     if (!message.content.startsWith(config.prefix)) return;
 
